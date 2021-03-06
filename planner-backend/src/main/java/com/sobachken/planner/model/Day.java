@@ -1,13 +1,10 @@
 package com.sobachken.planner.model;
 
-import com.sobachken.planner.model.enums.DayName;
+import com.sobachken.planner.model.enums.Days;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,10 +15,18 @@ import java.util.List;
 @Entity
 public class Day extends PanacheEntity {
 
-    @Getter
-    private DayName name;
-    @Column(name = "day_date")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "name")
+    private Days name;
+
+    @Column(name = "day_date",
+    columnDefinition = "timestamp with time zone")
     private LocalDate dayDate;
-    @OneToMany
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "day_id",
+            foreignKey = @ForeignKey(name = "event_day_fk"),
+            updatable = false,
+            columnDefinition = "uuid")
     private List<Event> events;
 }

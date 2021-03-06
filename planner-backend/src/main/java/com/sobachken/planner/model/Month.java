@@ -1,13 +1,11 @@
 package com.sobachken.planner.model;
 
-import com.sobachken.planner.model.enums.MontName;
+import com.sobachken.planner.model.enums.Months;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import java.util.List;
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,9 +17,18 @@ import java.util.Set;
 public class Month extends PanacheEntity {
 
     @Getter
-    private MontName name;
-    @OneToMany
+    private Months name;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "month_id",
+            updatable = false,
+            columnDefinition = "uuid",
+            foreignKey = @ForeignKey(name = "month_plan_week_fk"))
     private Set<Week> weeks;
-    @OneToMany
-    private List<Note> notes;
+
+    @ElementCollection
+    @JoinColumn(name = "month_plan_id",
+    updatable = false,
+    foreignKey = @ForeignKey(name = "month_plan_note_fk"))
+    private Set<Note> notes = new HashSet<>();
 }

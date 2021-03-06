@@ -8,9 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,12 +18,26 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class Event extends PanacheEntity {
 
+    @Column(name = "name",
+            columnDefinition = "varchar(32)")
     private String name;
+
+    @Column(name = "description",
+            columnDefinition = "varchar(150)")
     private String description;
+
     @Nullable
-    @Column(name = "start_time")
+    @Column(name = "start_time",
+            columnDefinition = "timestamp with time zone")
     private LocalDateTime startTime;
+
     @Nullable
+    @Enumerated(EnumType.STRING)
+    @Column(name = "priority",
+            columnDefinition = "varchar(16)")
     private Priority priority;
+
+    @Column(name = "is_completed",
+            columnDefinition = "boolean")
     private boolean completed;
 }
