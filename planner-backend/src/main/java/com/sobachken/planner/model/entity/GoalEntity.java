@@ -1,6 +1,5 @@
-package com.sobachken.planner.model;
+package com.sobachken.planner.model.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,13 +15,14 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-public class Goal extends PanacheEntity {
+@Table(name = "goal")
+public class GoalEntity extends BaseEntity {
 
     @Column(name = "name",
             columnDefinition = "varchar(32)")
     private String name;
 
-    @Column(name = "name",
+    @Column(name = "description",
             columnDefinition = "varchar(150)")
     private String description;
 

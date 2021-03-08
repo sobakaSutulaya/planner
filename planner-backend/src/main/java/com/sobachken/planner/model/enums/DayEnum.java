@@ -1,6 +1,6 @@
 package com.sobachken.planner.model.enums;
 
-public enum Days {
+public enum DayEnum {
     MONDAY("Monday", 1),
     TUESDAY("Tuesday", 2),
     WEDNESDAY("Wednesday", 3),
@@ -12,7 +12,7 @@ public enum Days {
     private final String name;
     private final int priority;
 
-    Days(String name, int priority) {
+    DayEnum(String name, int priority) {
         this.name = name;
         this.priority = priority;
     }

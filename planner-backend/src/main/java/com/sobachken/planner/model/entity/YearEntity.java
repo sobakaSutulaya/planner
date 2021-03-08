@@ -1,6 +1,6 @@
-package com.sobachken.planner.model;
+package com.sobachken.planner.model.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import com.sobachken.planner.model.entity.note.YearNoteEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,14 +12,14 @@ import static javax.persistence.CascadeType.REFRESH;
 import static javax.persistence.CascadeType.REMOVE;
 
 @Entity
+@Table(name = "year")
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Year extends PanacheEntity {
+public class YearEntity extends BaseEntity {
 
     //todo: add EntityGraphs
-    //todo: add nullable=false everywhere where updatable=false is used
     //todo: add backend to docker-compose
     private static final int MONTH_IN_A_YEAR = 12;
 
@@ -28,23 +28,25 @@ public class Year extends PanacheEntity {
     @JoinColumn(name = "year_id",
             updatable = false,
             foreignKey = @ForeignKey(name = "year_month_fk"))
-    private final Set<Month> months = new HashSet<>(MONTH_IN_A_YEAR);
+    private Set<MonthEntity> months = new HashSet<>(MONTH_IN_A_YEAR);
 
     @Setter
     @OneToMany(fetch = FetchType.LAZY,
             cascade = {REFRESH, REMOVE})
     @JoinColumn(name = "year_id",
             updatable = false,
+            nullable = false,
             foreignKey = @ForeignKey(name = "year_goal_fk"))
-    private List<Goal> goals;
+    private List<GoalEntity> goals;
 
     @Setter
-    @OneToMany(fetch = FetchType.LAZY,
-            cascade = {REFRESH, REMOVE})
-    @JoinColumn(name = "year_id",
-    updatable = false,
-    nullable = false,
-    columnDefinition = "uuid",
-    foreignKey = @ForeignKey(name = "year_note_fk"))
-    private List<Note> notes;
+    @ElementCollection
+    @CollectionTable(name = "year_notes",
+            joinColumns = @JoinColumn(name = "year_id",
+                    nullable = false,
+                    updatable = false,
+                    columnDefinition = "uuid"),
+            foreignKey = @ForeignKey(name = "year_note_fk")
+    )
+    private List<YearNoteEntity> notes;
 }

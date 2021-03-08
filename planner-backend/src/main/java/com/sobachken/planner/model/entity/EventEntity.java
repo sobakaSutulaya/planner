@@ -1,4 +1,4 @@
-package com.sobachken.planner.model;
+package com.sobachken.planner.model.entity;
 
 import com.sobachken.planner.model.enums.Priority;
 import com.sun.istack.Nullable;
@@ -16,7 +16,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Event extends PanacheEntity {
+@Table(name = "event")
+public class EventEntity extends BaseEntity {
 
     @Column(name = "name",
             columnDefinition = "varchar(32)")
