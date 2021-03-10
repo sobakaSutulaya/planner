@@ -11,16 +11,27 @@ import java.util.Set;
 import static javax.persistence.CascadeType.REFRESH;
 import static javax.persistence.CascadeType.REMOVE;
 
-@Entity
+
+
+@Entity(name = "Year")
 @Table(name = "year")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = YearEntity.FULL_GRAPH,
+                attributeNodes = {
+                        @NamedAttributeNode(value = "months", subgraph = MonthEntity.FULL_GRAPH),
+                        //todo: i don't know should i specify all of it, or it will be included by default
+                        @NamedAttributeNode(value = "goals"),
+                        @NamedAttributeNode(value = "notes")
+                })
+})
 public class YearEntity extends BaseEntity {
 
-    //todo: add EntityGraphs
-    //todo: add backend to docker-compose
+    public static final String FULL_GRAPH = "FullYearGraph";
+
     private static final int MONTH_IN_A_YEAR = 12;
 
     @OneToMany(fetch = FetchType.LAZY,

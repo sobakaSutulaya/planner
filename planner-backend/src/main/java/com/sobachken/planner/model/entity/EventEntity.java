@@ -11,12 +11,15 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "Event")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "event")
+@Table(name = "event",
+        indexes = {
+                @Index(name = "day_event_fk_uindex", columnList = "day_id")
+        })
 public class EventEntity extends BaseEntity {
 
     @Column(name = "name",

@@ -1,8 +1,7 @@
 package com.sobachken.planner.model.entity;
 
-import com.sobachken.planner.model.enums.DayEnum;
 import com.sobachken.planner.model.entity.note.DayNoteEntity;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import com.sobachken.planner.model.enums.DayEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,9 +16,21 @@ import java.util.Set;
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "day")
+@Entity(name = "Day")
+@Table(name = "day",
+        indexes = {
+                @Index(name = "week_day_fk_uindex", columnList = "week_id")
+        })
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = DayEntity.FULL_GRAPH,
+                attributeNodes = {
+                        @NamedAttributeNode(value = "events"),
+                        @NamedAttributeNode(value = "notes")
+                })
+})
 public class DayEntity extends BaseEntity {
+
+    public static final String FULL_GRAPH = "FullDayGraph";
 
     @Enumerated(EnumType.STRING)
     @Column(name = "name")

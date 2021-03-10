@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Table;
 import java.time.LocalDate;
 
@@ -14,8 +15,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Entity
-@Table(name = "goal")
+@Entity(name = "Goal")
+@Table(name = "goal",
+        indexes = {
+                @Index(name = "year_goal_fk_uindex", columnList = "year_id")
+        })
 public class GoalEntity extends BaseEntity {
 
     @Column(name = "name",
