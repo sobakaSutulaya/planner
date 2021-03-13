@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
   postgres-db:
@@ -35,6 +35,24 @@ services:
     ports:
       - 3000:80
     container_name: react-ui
+    networks:
+      - net
+    depends_on:
+      - planner-backend
+
+# it doesn't work due to connection error to postgre. And dockerize quarkus app is a fucking nightmare
+  planner-backend:
+    build: ./planner-backend
+    image: planner/quarkus-server
+    restart: always
+    networks:
+      - net
+    ports:
+      - 5005:5005
+      - 8080:8080
+    container_name: quarkus-server
+    depends_on:
+      - postgres-db
 
 networks:
   net:

@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>planner-backend</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <surefire-plugin.version>2.22.1</surefire-plugin.version>
@@ -103,6 +103,23 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${compiler-plugin.version}</version>
                 <configuration>
+                    <annotationProcessorPaths>
+                        <annotationProcessorPath>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.16</version>
+                        </annotationProcessorPath>
+                        <annotationProcessorPath>
+                            <groupId>org.hibernate</groupId>
+                            <artifactId>hibernate-jpamodelgen</artifactId>
+                            <version>5.4.29.Final</version>
+                        </annotationProcessorPath>
+                        <annotationProcessorPath>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-panache-common</artifactId>
+                            <version>${quarkus.platform.version}</version>
+                        </annotationProcessorPath>
+                    </annotationProcessorPaths>
                     <source>11</source>
                     <target>11</target>
                 </configuration>
